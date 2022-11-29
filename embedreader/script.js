@@ -30,6 +30,7 @@ window.onload = async ()=> {
                 for (const w of text)
                 if ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%¨&*()-+=§~^<>;:.,\\|/\'"`?\n '.indexOf(w.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) >= 0) str_ += w
             }
+            str_ = str_.trim()
             let d = conv.makeHtml(str_.split('`').join(''))
             return d.split('*').join('')
         }

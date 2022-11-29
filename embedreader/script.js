@@ -14,7 +14,7 @@ window.onload = async ()=> {
         if (!msg.embeds ||  msg.embeds.length < 1) return alert('Erro')
         function normalize(text,title = false) {
             let str_ = ''
-            text = text.split('﹖').join('?')
+            text = text.split('﹖').join('?').split('﹒').join(' ')
             if (title) {
                 for (const w of text)
                 if ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&-+.<>,\\|/\'"? '.indexOf(w.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) >= 0) str_ += w

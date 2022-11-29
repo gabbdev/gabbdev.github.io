@@ -21,7 +21,7 @@ window.onload = async ()=> {
                 str_ = str_.toLowerCase()
                 let firstWord = -1
                 for (const w of str_) {
-                    if ('abcdefghijklmnopqrstuvwxyz'.indexOf(w) >= 0) {
+                    if ('abcdefghijklmnopqrstuvwxyz'.indexOf(w.normalize("NFD").replace(/[\u0300-\u036f]/g, "")) >= 0) {
                         firstWord = str_.indexOf(w); break
                     }
                 }

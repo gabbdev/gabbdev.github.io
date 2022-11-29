@@ -1,4 +1,5 @@
 const urlParams = new URLSearchParams(window.location.search)
+if (!urlParams.get('id')) alert('Erro')
 const ids = urlParams.get('id').split(',')
 const conv = new showdown.Converter({simplifiedAutoLink: true,simpleLineBreaks: true,strikethrough: true})
 
@@ -14,9 +15,9 @@ window.onload = async ()=> {
         function normalize(text,title = false) {
             let str_ = ''
             text = text.split('﹖').join('?')
-            for (const w of text)
-                if ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%¨&*()-+=§~^<>;:.,\\|/\'"`?\n '.indexOf(w.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) >= 0) str_ += w
             if (title) {
+                for (const w of text)
+                if ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&-+.<>,\\|/\'"? '.indexOf(w.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) >= 0) str_ += w
                 str_ = str_.toLowerCase()
                 let firstWord = -1
                 for (const w of str_) {
@@ -25,15 +26,28 @@ window.onload = async ()=> {
                     }
                 }
                 if (firstWord >= 0) str_ = str_.substring(0,firstWord - 1) + str_[firstWord].toUpperCase() + str_.substring(firstWord + 1, str_.length)
+            } else {
+                for (const w of text)
+                if ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%¨&*()-+=§~^<>;:.,\\|/\'"`?\n '.indexOf(w.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) >= 0) str_ += w
             }
             let d = conv.makeHtml(str_.split('`').join(''))
             return d.split('*').join('')
         }
         for (const embed of msg.embeds) {
             let emb = '<div class="embed">'
-            if (embed.title) emb += '<h1>' + normalize(embed.title, true) +  '</h1>'
+            let halignOpen = false
+            if (embed.thumbnail && embed.thumbnail.url) {
+                halignOpen = true
+                emb += '<halign>'
+                emb += '<img class="thumbnail" src="' + embed.thumbnail.url + '">'
+            }
+            if (embed.title) {
+                halignOpen = false
+                emb += '<h1>' + normalize(embed.title, true) +  '</h1> </halign>'
+            }
             if (embed.description) emb += normalize(embed.description)
-            if (embed.image && embed.image.url) emb += '<img src="' + embed.image.url + '">'
+            if (halignOpen) emb +=  '</halign>'
+            if (embed.image && embed.image.url) emb += '<img class="image" src="' + embed.image.url + '">'
             container.innerHTML += emb + '</div>'
         }
     }

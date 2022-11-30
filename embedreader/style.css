@@ -36,9 +36,28 @@ pre {
     border-radius: 5px;
     margin-right: 10px;
 }
+.emoji {
+    position: relative;
+    top: 2px;
+    width: 20px;
+}
 .embed {
     width: 100%;
     margin-bottom: 20px;
+}
+footer {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-width: 960px;
+    text-align: center;
+}
+.author {
+    margin-bottom: 10px;
 }
 halign {
     display: flex;

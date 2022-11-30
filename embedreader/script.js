@@ -31,8 +31,23 @@ window.onload = async ()=> {
                 if ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%¨&*()-+=§~^<>;:.,\\|/\'"`?\n '.indexOf(w.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) >= 0) str_ += w
             }
             str_ = str_.trim()
+            str_ = discord(str_)
             let d = conv.makeHtml(str_.split('`').join(''))
             return d.split('*').join('')
+        }
+        function discord(text) {
+            let se = -1
+            for (let i = 0; i < text.length; i++) {
+                const w = text[i]
+                if (w == '<' && (text[i + 1] == ':' || text[i + 1] == 'a')) {
+                    se = i
+                }
+                if (w == '>' && se >= 0) {
+                    text = text.substring(0,se) + `<img class="emoji" src="https://cdn.discordapp.com/emojis/${text.substring(se,i + 1).split(':')[2].split('>').join('')}?size=32">` + text.substring(se + text.substring(se,i + 1).length, text.length)
+                    se = -1
+                }
+            }
+            return text
         }
         for (const embed of msg.embeds) {
             let emb = '<div class="embed">'
@@ -51,5 +66,7 @@ window.onload = async ()=> {
             if (embed.image && embed.image.url) emb += '<img class="image" src="' + embed.image.url + '">'
             container.innerHTML += emb + '</div>'
         }
+        document.querySelector('.author').innerHTML = normalize(msg.content)
+        document.querySelector('footer').style.display = 'flex'
     }
 }

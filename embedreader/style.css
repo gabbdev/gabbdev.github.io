@@ -56,6 +56,11 @@ footer {
     max-width: 960px;
     text-align: center;
 }
+.mention {
+    color: #dcd7f5;
+    background-color: rgba(88,101,242,0.3);
+    border-radius: 2px;
+}
 .author {
     margin-bottom: 10px;
 }

@@ -84,6 +84,18 @@ halign {
 a:link {
     color: rgb(123, 202, 244);
 }
+a:link em {
+    color: rgb(123, 202, 244);
+}
+a:link strong {
+    color: rgb(123, 202, 244);
+}
 a:visited {
+    color: rgb(101, 193, 243);
+}
+a:visited em {
+    color: rgb(101, 193, 243);
+}
+a:visited strong {
     color: rgb(101, 193, 243);
 }

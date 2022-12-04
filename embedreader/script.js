@@ -28,7 +28,7 @@ window.onload = async ()=> {
                 if (firstWord >= 0) str_ = str_.substring(0,firstWord - 1) + str_[firstWord].toUpperCase() + str_.substring(firstWord + 1, str_.length)
             } else {
                 for (const w of text)
-                if ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%¨&*()-+=§~^<>;:.,\\|/\'"`?\n '.indexOf(w.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) >= 0) str_ += w
+                if ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%¨&*()[]-+=§~^<>;:.,\\|/\'"`?\n '.indexOf(w.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) >= 0) str_ += w
             }
             str_ = str_.trim()
             str_ = discord(str_)
@@ -36,7 +36,7 @@ window.onload = async ()=> {
             return d.split('*').join('')
         }
         function discord(text) {
-            let se = -1
+            let se = -1,sp = -1
             for (let i = 0; i < text.length; i++) {
                 const w = text[i]
                 if (w == '<' && (text[i + 1] == ':' || text[i + 1] == 'a')) {
@@ -45,6 +45,14 @@ window.onload = async ()=> {
                 if (w == '>' && se >= 0) {
                     text = text.substring(0,se) + `<img class="emoji" src="https://cdn.discordapp.com/emojis/${text.substring(se,i + 1).split(':')[2].split('>').join('')}?size=32">` + text.substring(se + text.substring(se,i + 1).length, text.length)
                     se = -1
+                }
+                if (w == '|' && text[i + 1] == '|' && text[i - 1] !=  '\\') {
+                    if (sp < 0) {
+                        sp = i
+                    } else {
+                        text = text.substring(0, sp) + '<spoiler>' + text.substring(sp + 2, i) + '</spoiler>' + text.substring(i + 2,text.length)
+                        sp = -1
+                    }
                 }
             }
             return text
@@ -55,7 +63,7 @@ window.onload = async ()=> {
             if (embed.thumbnail && embed.thumbnail.url) {
                 halignOpen = true
                 emb += '<halign>'
-                emb += '<img class="thumbnail" src="' + embed.thumbnail.url + '">'
+                emb += '<a href="'+ embed.thumbnail.url + '"><img class="thumbnail" src="' + embed.thumbnail.url + '"></a>'
             }
             if (embed.title) {
                 halignOpen = false
@@ -65,6 +73,16 @@ window.onload = async ()=> {
             if (halignOpen) emb +=  '</halign>'
             if (embed.image && embed.image.url) emb += '<img class="image" src="' + embed.image.url + '">'
             container.innerHTML += emb + '</div>'
+        }
+        for (const spoiler of document.querySelectorAll('spoiler')) {
+            spoiler.addEventListener('click', (e)=> {
+                e.target.style.color = '#fff'
+                e.target.style.backgroundColor = '#292b2f'
+            })
+            spoiler.addEventListener('touchstart', (e)=> {
+                e.target.style.color = '#fff'
+                e.target.style.backgroundColor = '#292b2f'
+            })
         }
         document.querySelector('.author').innerHTML = normalize(msg.content)
         document.querySelector('footer').style.display = 'flex'

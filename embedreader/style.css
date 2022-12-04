@@ -64,9 +64,26 @@ footer {
 .author {
     margin-bottom: 10px;
 }
+
+spoiler {
+    border-radius: 3px;
+    color: #202225;
+    background-color: #202225;
+    cursor: pointer;
+}
+spoiler:hover {
+    background-color: #292b2f;
+    color: #292b2f
+}
 halign {
     display: flex;
     align-items: center;
     width: 90%;
     max-width: 500px;
+}
+a:link {
+    color: rgb(123, 202, 244);
+}
+a:visited {
+    color: rgb(101, 193, 243);
 }

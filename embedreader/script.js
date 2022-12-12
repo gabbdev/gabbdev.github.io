@@ -6,7 +6,7 @@ const conv = new showdown.Converter({simplifiedAutoLink: true,simpleLineBreaks: 
 window.onload = async ()=> {
     if (!ids) return alert('Erro')
     for (const msgId of ids) {
-        let request = await fetch('https://il0.cc/api/dfsbot/journal?id=' + msgId)
+        let request = await fetch('https://dfs.il0.cc/api/dfsbot/journal?id=' + msgId)
         request = await request.text()
         if (request == 'err') return alert('Erro')
         const msg = JSON.parse(request)

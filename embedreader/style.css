@@ -70,6 +70,7 @@ spoiler {
     color: #202225;
     background-color: #202225;
     cursor: pointer;
+    user-select: none;
 }
 spoiler:hover {
     background-color: #292b2f;
